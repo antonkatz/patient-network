@@ -248,7 +248,8 @@ public class RestrictedFeatureSimilarityView implements FeatureSimilarityView
     {
         FeatureSimilarityScorer scorer;
         try {
-            scorer = ComponentManagerRegistry.getContextComponentManager().getInstance(FeatureSimilarityScorer.class);
+            scorer =
+                ComponentManagerRegistry.getContextComponentManager().getInstance(FeatureSimilarityScorer.class, "ic");
         } catch (ComponentLookupException e) {
             return Double.NaN;
         }

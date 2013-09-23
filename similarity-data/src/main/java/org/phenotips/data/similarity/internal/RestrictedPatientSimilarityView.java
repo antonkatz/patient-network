@@ -250,7 +250,7 @@ public class RestrictedPatientSimilarityView implements PatientSimilarityView
     {
         try {
             FeatureSimilarityScorer scorer =
-                ComponentManagerRegistry.getContextComponentManager().getInstance(FeatureSimilarityScorer.class);
+                ComponentManagerRegistry.getContextComponentManager().getInstance(FeatureSimilarityScorer.class, "ic");
             double bestScore = 0;
             Feature bestMatch = null;
             for (Feature candidate : lookIn) {

@@ -42,7 +42,7 @@ import org.apache.commons.lang3.StringUtils;
  */
 @Component
 @Singleton
-public class DefaultFeatureSimilarityScorer implements FeatureSimilarityScorer
+public class NaiveFeatureSimilarityScorer implements FeatureSimilarityScorer
 {
     /** Provides access to the term ontology. */
     @Inject

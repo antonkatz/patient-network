@@ -21,7 +21,7 @@ package org.phenotips.data.similarity.internal;
 
 import org.phenotips.data.Feature;
 import org.phenotips.data.similarity.FeatureSimilarityScorer;
-import org.phenotips.data.similarity.internal.DefaultFeatureSimilarityScorer;
+import org.phenotips.data.similarity.internal.NaiveFeatureSimilarityScorer;
 import org.phenotips.data.similarity.internal.mocks.MockOntologyTerm;
 import org.phenotips.data.similarity.internal.mocks.MockFeature;
 import org.phenotips.ontology.OntologyManager;
@@ -42,7 +42,7 @@ import org.junit.Test;
 import static org.mockito.Mockito.when;
 
 /**
- * Tests for the default {@link FeatureSimilarityScorer} {@link DefaultFeatureSimilarityScorer implementation}.
+ * Tests for the default {@link FeatureSimilarityScorer} {@link NaiveFeatureSimilarityScorer implementation}.
  * 
  * @version $Id$
  */
@@ -51,7 +51,7 @@ public class DefaultFeatureSimilarityScorerTest
     @Rule
     public final MockitoComponentMockingRule<FeatureSimilarityScorer> mocker =
         new MockitoComponentMockingRule<FeatureSimilarityScorer>(
-            DefaultFeatureSimilarityScorer.class);
+            NaiveFeatureSimilarityScorer.class);
 
     /** Same term should get the maximum score. */
     @Test

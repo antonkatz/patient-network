@@ -930,7 +930,7 @@ public class RestrictedFeatureSimilarityViewTest
         Set<OntologyTerm> ancestors = new HashSet<OntologyTerm>();
 
         // Setup the feature scorer
-        FeatureSimilarityScorer featureScorer = new DefaultFeatureSimilarityScorer();
+        FeatureSimilarityScorer featureScorer = new NaiveFeatureSimilarityScorer();
         ReflectionUtils.setFieldValue(featureScorer, "ontologyManager", om);
         when(cm.getInstance(FeatureSimilarityScorer.class)).thenReturn(featureScorer);
 

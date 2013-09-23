@@ -197,7 +197,7 @@ public class RestrictedPatientSimilarityViewFactoryTest
         OntologyManager om = mock(OntologyManager.class);
 
         // Setup the phenotype scorer
-        FeatureSimilarityScorer scorer = new DefaultFeatureSimilarityScorer();
+        FeatureSimilarityScorer scorer = new NaiveFeatureSimilarityScorer();
         ReflectionUtils.setFieldValue(scorer, "ontologyManager", om);
         doReturn(scorer).when(cm).getInstance(FeatureSimilarityScorer.class);
 
