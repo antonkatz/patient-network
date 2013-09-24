@@ -68,7 +68,7 @@ public class ICFeatureSimilarityScorer implements FeatureSimilarityScorer, Initi
     @Override
     public void initialize() throws InitializationException
     {
-        this.icSource = this.ontologyManager.getOntology("");
+        this.icSource = this.ontologyManager.getOntology("MIM");
         this.frequencyDenominator = this.icSource.search(new HashMap<String, String>()
         {
             private static final long serialVersionUID = 1L;
@@ -76,7 +76,7 @@ public class ICFeatureSimilarityScorer implements FeatureSimilarityScorer, Initi
                 put(ICFeatureSimilarityScorer.this.WILDCARD, ICFeatureSimilarityScorer.this.WILDCARD);
             }
         }).size();
-        this.maximumIC = -Math.log(1 / this.frequencyDenominator);
+        this.maximumIC = -Math.log(1.0 / this.frequencyDenominator);
     }
 
     @Override
@@ -106,6 +106,9 @@ public class ICFeatureSimilarityScorer implements FeatureSimilarityScorer, Initi
         OntologyTerm matchTerm = this.ontologyManager.resolveTerm(matchId);
         OntologyTerm referenceTerm = this.ontologyManager.resolveTerm(referenceId);
 
+        if (matchTerm == null || referenceTerm == null) {
+            return Double.NaN;
+        }
         // Get common ancestors (lowest only)
         // TODO: implement more efficiently!
         Set<OntologyTerm> commonAncestors = new HashSet<OntologyTerm>();
@@ -119,7 +122,7 @@ public class ICFeatureSimilarityScorer implements FeatureSimilarityScorer, Initi
         commonAncestors.removeAll(redundantAncestors);
 
         // Find the most informative one
-        double bestInformationContent = Integer.MIN_VALUE;
+        double bestInformationContent = 0;
         for (OntologyTerm ancestor : commonAncestors) {
             double informationContent = this.getIC(ancestor);
             if (informationContent >= bestInformationContent) {
@@ -138,13 +141,16 @@ public class ICFeatureSimilarityScorer implements FeatureSimilarityScorer, Initi
      */
     private double getIC(final OntologyTerm term)
     {
-        double frequencyNumerator = this.ontologyManager.getOntology("").search(new HashMap<String, String>()
+        double frequencyNumerator = this.icSource.search(new HashMap<String, String>()
         {
             private static final long serialVersionUID = 1L;
             {
                 put("symptom", term.getId());
             }
         }).size();
+        if (frequencyNumerator == 0) {
+            return 0;
+        }
         return -Math.log(frequencyNumerator / this.frequencyDenominator);
     }
 }
