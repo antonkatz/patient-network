@@ -47,9 +47,6 @@ import org.xwiki.component.phase.InitializationException;
 @Named("ic")
 public class ICFeatureSimilarityScorer implements FeatureSimilarityScorer, Initializable
 {
-    /** Wild card to use in searches. */
-    private static final String WILDCARD = "*";
-
     /** Provides access to the term ontology. */
     @Inject
     private OntologyManager ontologyManager;
