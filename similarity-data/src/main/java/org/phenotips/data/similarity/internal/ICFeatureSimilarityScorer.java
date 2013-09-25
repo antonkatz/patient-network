@@ -58,7 +58,7 @@ public class ICFeatureSimilarityScorer implements FeatureSimilarityScorer, Initi
     private OntologyService icSource;
 
     /** Denominator for computing the frequency of a term in the OMIM/HPO mapping. */
-    private int frequencyDenominator;
+    private long frequencyDenominator;
 
     /**
      * The maximum achievable information content value, corresponding to a symptom that appears in only one disorder.
@@ -69,13 +69,7 @@ public class ICFeatureSimilarityScorer implements FeatureSimilarityScorer, Initi
     public void initialize() throws InitializationException
     {
         this.icSource = this.ontologyManager.getOntology("MIM");
-        this.frequencyDenominator = this.icSource.search(new HashMap<String, String>()
-        {
-            private static final long serialVersionUID = 1L;
-            {
-                put(ICFeatureSimilarityScorer.this.WILDCARD, ICFeatureSimilarityScorer.this.WILDCARD);
-            }
-        }).size();
+        this.frequencyDenominator = this.icSource.size();
         this.maximumIC = -Math.log(1.0 / this.frequencyDenominator);
     }
 
@@ -141,13 +135,13 @@ public class ICFeatureSimilarityScorer implements FeatureSimilarityScorer, Initi
      */
     private double getIC(final OntologyTerm term)
     {
-        double frequencyNumerator = this.icSource.search(new HashMap<String, String>()
+        double frequencyNumerator = this.icSource.count(new HashMap<String, String>()
         {
             private static final long serialVersionUID = 1L;
             {
                 put("symptom", term.getId());
             }
-        }).size();
+        });
         if (frequencyNumerator == 0) {
             return 0;
         }
